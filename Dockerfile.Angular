@@ -1,7 +1,4 @@
-  
-
-
-
+#multi stage build
 FROM node:11-alpine AS builder
 WORKDIR /app
 
@@ -12,9 +9,8 @@ RUN npm install -g @angular/cli@7.3.9
 COPY . /app
 
 RUN ng build --configuration=develop
-
-
-
+#for production
+#RUN ng build --configuration=production
 
 FROM djay921/nginxopenshift:latest
 COPY nginx.conf /etc/nginx/conf.d/default.conf
