@@ -1,0 +1,27 @@
+FROM node:10
+
+WORKDIR /app
+
+COPY package.json .
+COPY package-lock.json .
+#to install from package.json
+RUN npm i
+#to install from package-lock.json
+RUN npm ci --verbose 
+
+RUN mkdir logs data
+COPY . .
+ENV NODE_ENV=production
+RUN npm run build
+RUN npm rebuild node-sass
+
+#ENV HTTP_PROXY http://10.135.0.29:8080
+#ENV HTTPS_PROXY http://10.135.0.29:8080
+#ENV http_proxy http://10.135.0.29:8080
+#ENV https_proxy http://10.135.0.29:8080
+RUN chmod 777 -R /app
+
+EXPOSE 3000
+
+CMD [ "npm", "start"]
+
