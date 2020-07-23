@@ -1,0 +1,29 @@
+FROM python:3.6
+
+
+#proxy settings for internal vms
+#ENV HTTP_PROXY http://10.0.0.0:8080
+#ENV HTTPS_PROXY http://10.0.0.0:8080
+
+
+# Set the working directory to /app
+WORKDIR /app
+RUN mkdir logs && chmod -R 777 logs
+
+
+# Copy the current directory contents into the container at /app
+ADD . /app
+
+
+RUN pip install --upgrade setuptools
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+RUN python nltk_download.py
+RUN python -m spacy download en
+
+
+# Make port 8011 available to the world outside this container
+EXPOSE 8011
+
+#RUN servers 
+CMD ["python", "server.py"]
