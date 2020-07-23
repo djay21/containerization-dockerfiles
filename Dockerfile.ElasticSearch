@@ -1,0 +1,6 @@
+FROM elasticsearch:7.1.1
+RUN  cd config && echo xpack.security.enabled: true >> elasticsearch.yml
+RUN cd config && echo discovery.type: single-node >> elasticsearch.yml
+RUN echo "elasticpassword" | bin/elasticsearch-keystore add -xf bootstrap.password
+EXPOSE 9200
+
