@@ -1,0 +1,52 @@
+version: "2"
+
+services:
+  frontend:
+    container_name: frontend
+    build: ./tas
+    restart: always
+    depends_on:
+      - mongo_db
+    environment:
+      - MONGODB_SERVICE_PORT=49002
+      - MONGODB_SERVICE_HOST=mongo_db
+      - HTTPS_SECURE=TRUE
+      - NODE_ENV=production
+    ports:
+      - "49001:8000"
+    networks:
+      static-network:
+        ipv4_address: 1.1.2.1
+  mongo_db:
+    container_name: mongo
+    image: mongo
+    restart: on_failure
+    ports:
+      - "49002:27017"
+    volumes:
+      - ./data/db:/data/db
+    networks:
+      static-network:
+        ipv4_address: 1.1.2.2
+
+  backend:
+    container_name: backend
+    build: ./backend
+    restart: unless_stopped
+    depends_on:
+      - mongo_db
+    ports:
+      - "49003:5001"
+    environment:
+      - DB_PORT=49002
+    volumes:
+      - ./data/files:/app/files
+    networks:
+      static-network:
+        ipv4_address: 1.1.2.3
+
+networks:
+  static-network:
+    ipam:
+      config:
+        - subnet: 1.1.2.0/24
