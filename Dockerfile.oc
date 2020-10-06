@@ -1,0 +1,7 @@
+FROM ubuntu
+RUN apt update && apt install wget -y
+RUN wget https://downloads-openshift-console.apps.ocp4.innershift.sodigital.io/amd64/linux/oc.tar && tar -xvf oc.tar
+RUN mv oc /usr/bin
+Run chmod 777 -R /usr/bin
+#oc new-build --name cookbook --binary --strategy docker && oc start-build cookbook --from-dir=.
+CMD tail -f /dev/null
