@@ -1,0 +1,13 @@
+FROM alpine:3.7
+
+MAINTAINER DJAY21
+
+
+ADD requirements.txt 
+RUN apk add --update python python-dev py-pip build-base postgresql-dev gcc musl-dev linux-headers nginx bash 
+&& rm -r -f /var/cache/apk/* \
+
+&& pip install -r /requirements.txt \
+
+&& apk del gcc python-dev build-base musl-dev linux-headers
+CMD python server.py
