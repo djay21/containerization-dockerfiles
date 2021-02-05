@@ -1,0 +1,26 @@
+
+FROM python:3.6 as builder
+
+WORKDIR /app
+#RUN mkdir logs 
+ADD . /app
+
+RUN pip install --user --trusted-host pypi.python.org -r requirements.txt
+
+RUN python setup.py build_ext --inplace
+
+RUN find *.c -type f -delete
+RUN find *.py -type f -not -name 'wsgi.py' -delete
+
+#RUN chmod 777 -R /app
+
+
+FROM python:3.6-alpine
+COPY --from=builder /root/.local /root/.local
+WORKDIR /app
+ENV PATH=/root/.local/bin:$PATH
+COPY . /app
+EXPOSE 8013
+ENTRYPOINT ["sh", "entrypoint.sh"]
+CMD ["python", "server.py"]
+
