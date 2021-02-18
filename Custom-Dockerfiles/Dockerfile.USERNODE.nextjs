@@ -1,0 +1,36 @@
+FROM node:10
+
+
+RUN mkdir /app/ && chown -R node:root /app
+
+WORKDIR /app
+
+COPY --chown=node:root package*.json ./
+USER node
+
+RUN npm install && npm cache clean --force --loglevel=error
+
+COPY --chown=node:root . .
+RUN npm run build
+RUN mkdir -m 777 logs data
+ENV NODE_ENV=production
+COPY . .
+
+
+#WORKDIR /app/client
+#RUN find * -maxdepth 0 -name 'lib' -prune -o -exec rm -rf '{}' ';'
+#WORKDIR /app/client/lib
+#RUN find *.js -type f -not -name 'routes.js' -delete
+#WORKDIR /app
+#RUN node uglify.js
+#RUN chmod 777 -R /app  && chmod 777 -R /root/.npm
+#RUN chgrp -R 0 /app/ \
+ # && chmod -R g+rwX /app/
+ 
+ 
+USER root
+RUN chown -R node:root /app
+RUN chmod 777 -R /app 
+USER node
+EXPOSE 8001
+CMD node server/app.js
