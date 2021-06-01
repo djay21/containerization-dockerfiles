@@ -5,5 +5,6 @@ env REGISTRY_AUTH htpasswd
 env REGISTRY_AUTH_HTPASSWD_REALM Registry
 env REGISTRY_AUTH_HTPASSWD_PATH /auth/registry.password
 RUN  apk update && apk add apache2-utils
-RUN cd auth && htpasswd -b -B -c registry.password admin WilliamC0der
+RUN cd auth && htpasswd -b -B -c registry.password admin@admin
+RUN htpasswd -b registry.password dev dev@dev
 EXPOSE 5000
