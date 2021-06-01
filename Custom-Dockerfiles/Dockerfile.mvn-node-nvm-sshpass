@@ -1,0 +1,6 @@
+FROM ubuntu
+RUn apt update -y && apt install tzdata curl wget nano maven sshpass openssh-client -y
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+RUN export NVM_DIR="/root/.nvm";[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
