@@ -12,8 +12,8 @@ RUN chmod 777 /docker-entrypoint-initdb.d/start.sh
 #**************************************#for advance configuration********************************#
 
 FROM mongo:4.2
-RUN MONGO_INITDB_ROOT_USERNAME=root
-RUN MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
+ENV MONGO_INITDB_ROOT_USERNAME=root
+ENV MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
 COPY mongodb.conf /etc/mongodb.conf
 RUN mkdir -p /data/db2 dump/ngrams \
     && chown -R mongodb:mongodb /data/db2
