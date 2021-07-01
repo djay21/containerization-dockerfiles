@@ -1,0 +1,6 @@
+FROM vault:latest
+ENV VAULT_ADDR=http://0.0.0.0:8200
+ENV VAULT_API_ADDR=http://0.0.0.0:8200
+ENV VAULT_ADDRESS=http://0.0.0.0:8200
+COPY vault.json /vault/config/vault.json
+CMD vault server -config=/vault/config/vault.json
