@@ -55,3 +55,10 @@ networks:
     ipam:
       config:
         - subnet: 1.1.2.0/24
+
+
+
+# networks:
+#   default:
+#     external:
+#       name: https-network
