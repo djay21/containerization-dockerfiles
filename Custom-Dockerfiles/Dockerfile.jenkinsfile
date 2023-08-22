@@ -1,0 +1,12 @@
+FROM ubuntu:latest
+USER root
+RUn apt update -y && apt install tzdata curl wget nano maven sshpass openssh-client openjdk-17-jre -y
+RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install -y nodejs
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+RUN export NVM_DIR="/root/.nvm";[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+RUn curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | tee  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+RUn echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ |  tee    /etc/apt/sources.list.d/jenkins.list > /dev/null
+RUn wget https://get.jenkins.io/war/2.419/jenkins.war
+CMD java -jar jenkins.war
